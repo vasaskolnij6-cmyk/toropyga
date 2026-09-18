@@ -534,25 +534,7 @@ document.getElementById('error-msg').style.display = 'block';
 }
 }
 
-Вася:
-function addNewCoffee() {
-const name = document.getElementById('coffee-name').value;
-const price = document.getElementById('coffee-price').value;
 
-if (name && price) {
-const list = document.getElementById('coffee-list');
-const li = document.createElement('li');
-li.innerHTML = <span class="item-name">${name}</span> <span class="item-price">${price} грн</span>;
-list.appendChild(li);
-
-document.getElementById('coffee-name').value = '';
-document.getElementById('coffee-price').value = '';
-}
-}
-</script>
-
-</body>
-</html>
 
 
 
