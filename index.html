@@ -1,399 +1,211 @@
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Кава Торопига</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
---bg: #f5f2eb;
---card-bg: #ffffff;
---primary: #3d2314;
---border: #e4e4e7;
---gold: #f59e0b;
---gold-light: #fef3c7;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Торопига Кава</title>
+    <!-- Підключаємо надійну бібліотеку для генерації QR-коду -->
+    <script src="https://cloudflare.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FDFBF7;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .card {
+            max-width: 360px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        h1 { color: #6F4E37; margin-bottom: 5px; }
+        .sub { color: #777; margin-bottom: 20px; }
+        
+        /* Сітка для кружечків кави */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .circle {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: #ECEFF1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #78909C;
+            border: 2px solid #CFD8DC;
+            box-sizing: border-box;
+        }
+        /* Стиль для замальованого кружечка */
+        .circle.checked {
+            background-color: #6F4E37;
+            color: #FFFFFF;
+            border-color: #5D4037;
+        }
+        /* Сьома безкоштовна кава */
+        .circle.gift {
+            grid-column: span 2;
+            aspect-ratio: auto;
+            height: 100%;
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border-color: #A5D6A7;
+            border-radius: 15px;
+            font-size: 13px;
+        }
+        .circle.gift.checked {
+            background-color: #2E7D32;
+            color: #FFFFFF;
+            border-color: #1B5E20;
+        }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body { 
-font-family: 'Plus Jakarta Sans', sans-serif; 
-background-color: var(--bg); 
-color: #27272a;
-padding: 20px 16px;
-display: flex;
-justify-content: center;
-}
-
-.container {
-width: 100%;
-max-width: 420px;
-display: flex;
-flex-direction: column;
-gap: 16px;
-}
-
-.card { 
-background: var(--card-bg); 
-padding: 20px; 
-border-radius: 20px; 
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-border: 1px solid var(--border);
-text-align: center; 
-}
-
-h1 {
-font-size: 1.6rem;
-font-weight: 800;
-color: var(--primary);
-margin-bottom: 4px;
-}
-
-.promo-text {
-font-size: 1rem;
-font-weight: 700;
-color: #d97706;
-margin-bottom: 4px;
-}
-
-.hint-text {
-font-size: 0.8rem;
-color: #71717a;
-margin-bottom: 12px;
-}
-
-.circles-grid { 
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 8px; 
-margin-top: 10px;
-}
-
-.circle { 
-aspect-ratio: 1;
-border-radius: 50%; 
-border: 2px dashed #d1d5db; 
-display: flex; 
-align-items: center; 
-justify-content: center; 
-font-weight: 700; 
-font-size: 0.9rem;
-color: #71717a;
-background: #fafafa;
-cursor: pointer;
-user-select: none;
-}
-
-.circle.filled {
-background: var(--primary);
-color: white;
-border: 2px solid var(--primary);
-}
-
-.circle.free { 
-grid-column: span 2;
-aspect-ratio: auto;
-height: 44px;
-border: 2px solid var(--gold); 
-background: var(--gold-light); 
-color: #b45309; 
-font-size: 0.85rem;
-}
-
-.circle.free.filled {
-background: var(--gold);
-color: white;
-}
-
-h2 {
-font-size: 1.2rem;
-font-weight: 800;
-color: var(--primary);
-margin-bottom: 12px;
-}
-
-.hidden { display: none !important; }
-
-ul { list-style: none; text-align: left; }
-
-li { 
-padding: 10px 0; 
-border-bottom: 1px dashed var(--border); 
-display: flex; 
-justify-content: space-between; 
-align-items: center;
-font-weight: 600;
-}
-li:last-child { border-bottom: none; }
-
-.price { 
-background: #f4f4f5; 
-padding: 4px 10px; 
-border-radius: 12px; 
-font-size: 0.9rem;
-}
-
-input { 
-width: 100%; 
-padding: 10px 12px; 
-margin: 6px 0; 
-border: 1.5px solid var(--border); 
-border-radius: 10px; 
-font-size: 0.9rem;
-outline: none;
-font-family: inherit;
-}
-
-Вася:
-button { 
-background: var(--primary); 
-color: white; 
-border: none; 
-padding: 10px; 
-border-radius: 10px; 
-cursor: pointer; 
-width: 100%; 
-font-weight: 700; 
-font-size: 0.9rem;
-margin-top: 6px;
-}
-
-.del-btn { 
-background: #ef4444; 
-color: white; 
-border: none; 
-padding: 4px 8px; 
-border-radius: 6px; 
-cursor: pointer; 
-width: auto; 
-margin: 0; 
-font-size: 0.75rem; 
-}
-
-.badge {
-background: #dcfce7;
-color: #15803d;
-padding: 4px 10px;
-border-radius: 12px;
-font-size: 0.8rem;
-font-weight: 700;
-display: inline-block;
-margin-bottom: 8px;
-}
-
-.qr-box {
-display: flex;
-justify-content: center;
-margin: 10px 0;
-}
-.qr-box img {
-border-radius: 12px;
-border: 4px solid white;
-box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-width: 150px;
-height: 150px;
-}
-</style>
+        /* Кнопки */
+        .btn-login {
+            background: none;
+            border: none;
+            color: #B0BEC5;
+            text-decoration: underline;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .admin-section {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #CFD8DC;
+        }
+        .btn-action {
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 45%;
+            margin: 5px;
+        }
+        .btn-add { background-color: #4CAF50; }
+        .btn-reset { background-color: #F44336; }
+        
+        /* Блок QR-коду */
+        .qr-box {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        #qrcode img {
+            border: 4px solid white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-
 <div class="card">
-<h1>Кава Торопига</h1>
-<p class="promo-text">Сьома кава в подарунок!</p>
-<p class="hint-text">Натисніть на кружечок, щоб відмітити каву</p>
-<div class="circles-grid" id="circles-container"></div>
-</div>
+    <h1>Торопига 🏃‍♂️☕</h1>
+    <div class="sub">Кожна 7-ма кава в подарунок</div>
 
-<div class="card">
-<h2>QR-код картки</h2>
-<div class="qr-box">
-<img id="qr-img" src="" alt="QR-код">
-</div>
-<p class="hint-text" style="margin-bottom:0;">Скануйте, щоб відкрити меню на своєму смартфоні</p>
-</div>
+    <!-- 7 кружечків -->
+    <div class="grid">
+        <div class="circle" id="c1">1</div>
+        <div class="circle" id="c2">2</div>
+        <div class="circle" id="c3">3</div>
+        <div class="circle" id="c4">4</div>
+        <div class="circle" id="c5">5</div>
+        <div class="circle" id="c6">6</div>
+        <div class="circle gift" id="c7">🎁 7-ма</div>
+    </div>
 
-<div class="card">
-<h2>Меню напоїв</h2>
-<ul id="coffee-list"></ul>
-</div>
+    <!-- Кнопка входу -->
+    <button class="btn-login" onclick="openAdmin()">Вхід для баристи</button>
 
-<div class="card">
-<h2>Вхід для баристи</h2>
+    <!-- Секретні кнопки баристи -->
+    <div class="admin-section" id="adminBlock">
+        <h4 style="margin: 0 0 10px 0; color: #37474F;">Панель баристи</h4>
+        <button class="btn-action btn-add" onclick="addCoffee()">+ 1 Кава</button>
+        <button class="btn-action btn-reset" onclick="resetCoffee()">Скинути</button>
+    </div>
 
-<div id="login-box">
-<input type="password" id="pass-input" placeholder="Введіть пароль...">
-<button onclick="checkPassword()">Увійти</button>
-<p id="error-msg" style="color: #ef4444; font-size: 0.85rem; display: none; margin-top: 6px;">Невірний пароль!</p>
-</div>
-
-<div id="admin-box" class="hidden">
-<span class="badge">✓ Режим баристи</span>
-
-<input type="text" id="coffee-name" placeholder="Назва напою">
-<input type="number" id="coffee-price" placeholder="Ціна (грн)">
-<button onclick="addNewCoffee()">Додати в меню</button>
-
-<h3 style="margin-top: 16px; font-size: 0.95rem; color: var(--primary); text-align: left;">Керування меню:</h3>
-<ul id="barista-list" style="margin-top: 8px;"></ul>
-</div>
-</div>
-
+    <!-- Автоматичний QR-код -->
+    <div class="qr-box">
+        <small style="color: #90A4AE;">QR-код цього сайту для клієнтів:</small>
+        <div id="qrcode"></div>
+    </div>
 </div>
 
 <script>
-const SECRET_PASS = "1616";
+    // Рахуємо каву (зберігається в пам'яті телефону)
+    let count = parseInt(localStorage.getItem('toropyga_stamps')) || 0;
 
-let localStamps = 0;
-let localMenu = [
-{ name: "Еспресо", price: 40 },
-{ name: "Капучино", price: 60 },
-{ name: "Лате", price: 65 }
-];
+    function render() {
+        // Оновлюємо кружечки
+        for (let i = 1; i <= 7; i++) {
+            let el = document.getElementById('c' + i);
+            if (i <= count) {
+                el.classList.add('checked');
+                if(i < 7) el.innerText = "✓";
+            } else {
+                el.classList.remove('checked');
+                if(i < 7) el.innerText = i;
+            }
+        }
+    }
 
-function safeGetStorage(key) {
-try {
-return localStorage.getItem(key);
-} catch (e) {
-return null;
-}
-}
+    // Функція входу для баристи
+    function openAdmin() {
+        let pass = prompt("Введіть пароль баристи:");
+        if (pass === "1616") {
+            document.getElementById('adminBlock').style.display = 'block';
+        } else {
+            alert("Невірний код!");
+        }
+    }
 
-function safeSetStorage(key, val) {
-try {
-localStorage.setItem(key, val);
-} catch (e) {}
-}
+    // Додати каву
+    function addCoffee() {
+        if (count < 7) {
+            count++;
+        } else {
+            count = 1; // Якщо вже випили 7-му, починається нове коло з першої кави
+        }
+        localStorage.setItem('toropyga_stamps', count);
+        render();
+    }
 
-function getStamps() {
-const saved = safeGetStorage('coffeeStamps');
-return saved !== null ? Number(saved) : localStamps;
-}
+    // Скинути карту клієнта
+    function resetCoffee() {
+        if (confirm("Обнулити картку клієнта?")) {
+            count = 0;
+            localStorage.setItem('toropyga_stamps', count);
+            render();
+        }
+    }
 
-function setStamps(count) {
-localStamps = count;
-safeSetStorage('coffeeStamps', count);
-renderCircles();
-}
+    // Створення QR-коду поточного посилання сайту
+    new QRCode(document.getElementById("qrcode"), {
+        text: window.location.href,
+        width: 128,
+        height: 128
+    });
 
-Вася:
-function toggleStamp(num) {
-let current = getStamps();
-if (current === num) {
-setStamps(num - 1);
-} else {
-setStamps(num);
-}
-}
-
-function renderCircles() {
-const container = document.getElementById('circles-container');
-if (!container) return;
-const stamps = getStamps();
-container.innerHTML = '';
-
-for (let i = 1; i <= 6; i++) {
-const circle = document.createElement('div');
-circle.className = circle ${i <= stamps ? 'filled' : ''};
-circle.innerText = i <= stamps ? '✓' : i;
-circle.onclick = () => toggleStamp(i);
-container.appendChild(circle);
-}
-
-const freeCircle = document.createElement('div');
-freeCircle.className = circle free ${7 <= stamps ? 'filled' : ''};
-freeCircle.innerText = 7 <= stamps ? '🎉 Отримано!' : '🎁 7-ма FREE';
-freeCircle.onclick = () => toggleStamp(7);
-container.appendChild(freeCircle);
-}
-
-function getMenu() {
-const saved = safeGetStorage('coffeeMenu');
-return saved ? JSON.parse(saved) : localMenu;
-}
-
-function saveMenu(menu) {
-localMenu = menu;
-safeSetStorage('coffeeMenu', JSON.stringify(menu));
-renderMenu();
-renderBaristaList();
-}
-
-function renderMenu() {
-const menu = getMenu();
-const list = document.getElementById('coffee-list');
-if (!list) return;
-list.innerHTML = '';
-
-menu.forEach(item => {
-const li = document.createElement('li');
-li.innerHTML = <span>${item.name}</span><span class="price">${item.price} грн</span>;
-list.appendChild(li);
-});
-}
-
-function renderBaristaList() {
-const menu = getMenu();
-const list = document.getElementById('barista-list');
-if (!list) return;
-list.innerHTML = '';
-
-menu.forEach((item, index) => {
-const li = document.createElement('li');
-li.innerHTML = 
-<span>${item.name} (${item.price} грн)</span>
-<button class="del-btn" onclick="deleteCoffee(${index})">Видалити</button>
-;
-list.appendChild(li);
-});
-}
-
-function checkPassword() {
-const input = document.getElementById('pass-input').value;
-if (input === SECRET_PASS) {
-document.getElementById('login-box').classList.add('hidden');
-document.getElementById('admin-box').classList.remove('hidden');
-renderBaristaList();
-} else {
-document.getElementById('error-msg').style.display = 'block';
-}
-}
-
-function addNewCoffee() {
-const name = document.getElementById('coffee-name').value;
-const price = document.getElementById('coffee-price').value;
-
-if (name && price) {
-const menu = getMenu();
-menu.push({ name, price: Number(price) });
-saveMenu(menu);
-
-document.getElementById('coffee-name').value = '';
-document.getElementById('coffee-price').value = '';
-}
-}
-
-function deleteCoffee(index) {
-const menu = getMenu();
-menu.splice(index, 1);
-saveMenu(menu);
-}
-
-function initQRCode() {
-const qrImg = document.getElementById('qr-img');
-if (qrImg) {
-qrImg.src = https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.href)};
-}
-}
-
-// Запуск
-renderCircles();
-renderMenu();
-initQRCode();
+    // Малюємо кружечки при старті
+    render();
 </script>
 
 </body>
-  </html>
+          </html>
+
