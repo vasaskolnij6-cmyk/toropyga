@@ -1,4 +1,4 @@
-торопига
+Торопига
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Кава Торопига</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- Бібліотека для автоматичної генерації QR-коду -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root {
 --bg: #f5f2eb;
@@ -87,7 +89,7 @@ user-select: none;
 transition: all 0.2s ease;
 }
 
-/* Стиль замальованого кружечка */
+/* Замальований кружечок */
 .circle.filled {
 background: var(--primary);
 color: white;
@@ -174,6 +176,11 @@ margin: 0;
 font-size: 0.75rem; 
 }
 
+.secondary-btn {
+background: #71717a;
+margin-top: 10px;
+}
+
 .badge {
 background: #dcfce7;
 color: #15803d;
@@ -184,30 +191,46 @@ font-weight: 700;
 display: inline-block;
 margin-bottom: 8px;
 }
+
+#qrcode {
+display: flex;
+justify-content: center;
+margin: 10px 0;
+}
+#qrcode img {
+border-radius: 12px;
+border: 4px solid white;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-<!-- 1. ЗАГОЛОВОК ТА АКЦІЯ С 7 КРУЖЕЧКАМИ -->
+<!-- 1. АКТИВНА КАРТКА ЛОЯЛЬНОСТІ -->
 <div class="card">
 <h1>Кава Торопига</h1>
 <p class="promo-text">Сьома кава в подарунок!</p>
-<p class="hint-text">Торкніться кружечка, щоб замалювати позначку</p>
+<p class="hint-text">Натисніть на кружечок, щоб відмітити каву</p>
 
-<div class="circles-grid" id="circles-container">
-<!-- Кружечки генеруються динамічно через JS -->
-</div>
+<div class="circles-grid" id="circles-container"></div>
 </div>
 
-<!-- 2. МЕНЮ НАПОЇВ -->
+<!-- 2. QR-КОДД ДЛЯ КЛІЄНТІВ -->
+<div class="card">
+<h2>QR-код картки</h2>
+<div id="qrcode"></div>
+<p class="hint-text" style="margin-bottom:0;">Скануйте, щоб відкрити меню на своєму смартфоні</p>
+</div>
+
+<!-- 3. МЕНЮ НАПОЇВ -->
 <div class="card">
 <h2>Меню напоїв</h2>
 <ul id="coffee-list"></ul>
 </div>
 
-<!-- 3. ВХІД ДЛЯ БАРИСТИ -->
+<!-- 4. ВХІД ДЛЯ БАРИСТИ -->
 <div class="card">
 <h2>Вхід для баристи</h2>
 
@@ -219,9 +242,12 @@ margin-bottom: 8px;
 
 <div id="admin-box" class="hidden">
 <span class="badge">✓ Режим баристи</span>
+
 <input type="text" id="coffee-name" placeholder="Назва напою">
 <input type="number" id="coffee-price" placeholder="Ціна (грн)">
 <button onclick="addNewCoffee()">Додати в меню</button>
+
+<button onclick="resetStamps()" class="secondary-btn">Очистити відмітки лояльності</button>
 
 <h3 style="margin-top: 16px; font-size: 0.95rem; color: var(--primary); text-align: left;">Керування меню:</h3>
 <ul id="barista-list" style="margin-top: 8px;"></ul>
@@ -239,7 +265,7 @@ const defaultMenu = [
 { name: "Лате", price: 65 }
 ];
 
-// --- ЛОГІКА ЗАМАЛЬОВУВАННЯ КРУЖЕЧКІВ ---
+// --- ЛОГІКА ЗАМАЛЬОВУВАННЯ ШТАМПІВ ---
 function getStamps() {
 return Number(localStorage.getItem('coffeeStamps')) || 0;
 }
@@ -252,9 +278,16 @@ renderCircles();
 function toggleStamp(num) {
 let current = getStamps();
 if (current === num) {
-setStamps(num - 1); // Скидаємо останній
+setStamps(num - 1);
 } else {
-setStamps(num); // Замальовуємо до натиснутого
+setStamps(num);
+}
+}
+
+Вася:
+function resetStamps() {
+if (confirm("Очистити всі позначки лояльності?")) {
+setStamps(0);
 }
 }
 
@@ -271,8 +304,6 @@ circle.onclick = () => toggleStamp(i);
 container.appendChild(circle);
 }
 
-Вася:
-// 7-й безкоштовний кружечок
 const freeCircle = document.createElement('div');
 freeCircle.className = circle free ${7 <= stamps ? 'filled' : ''};
 freeCircle.innerText = 7 <= stamps ? '🎉 Отримано!' : '🎁 7-ма FREE';
@@ -280,7 +311,7 @@ freeCircle.onclick = () => toggleStamp(7);
 container.appendChild(freeCircle);
 }
 
-// --- ЛОГІКА МЕНЮ ТА АДМІНКИ ---
+// --- ЛОГІКА МЕНЮ ---
 function getMenu() {
 const saved = localStorage.getItem('coffeeMenu');
 return saved ? JSON.parse(saved) : defaultMenu;
@@ -350,9 +381,22 @@ menu.splice(index, 1);
 saveMenu(menu);
 }
 
-// Запуск при відкритті
+// --- АВТОМАТИЧНА ГЕНЕРАЦІЯ QR-КОДУ ---
+function initQRCode() {
+new QRCode(document.getElementById("qrcode"), {
+text: window.location.href,
+width: 140,
+height: 140,
+colorDark: "#3d2314",
+colorLight: "#ffffff",
+correctLevel: QRCode.CorrectLevel.H
+});
+}
+
+// Ініціалізація
 renderCircles();
 renderMenu();
+initQRCode();
 </script>
 
 </body>
