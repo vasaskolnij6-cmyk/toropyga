@@ -1,289 +1,359 @@
+торопига
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кава Торопига</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #f5f2eb;
-            --card-bg: #ffffff;
-            --primary: #3d2314;
-            --border: #e4e4e7;
-            --gold: #f59e0b;
-            --gold-light: #fef3c7;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кава Торопига</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg: #f5f2eb;
+--card-bg: #ffffff;
+--primary: #3d2314;
+--border: #e4e4e7;
+--gold: #f59e0b;
+--gold-light: #fef3c7;
+}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg); 
-            color: #27272a;
-            padding: 20px 16px;
-            display: flex;
-            justify-content: center;
-        }
+body { 
+font-family: 'Plus Jakarta Sans', sans-serif; 
+background-color: var(--bg); 
+color: #27272a;
+padding: 20px 16px;
+display: flex;
+justify-content: center;
+}
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+.container {
+width: 100%;
+max-width: 420px;
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
 
-        .card { 
-            background: var(--card-bg); 
-            padding: 20px; 
-            border-radius: 20px; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--border);
-            text-align: center; 
-        }
+.card { 
+background: var(--card-bg); 
+padding: 20px; 
+border-radius: 20px; 
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+border: 1px solid var(--border);
+text-align: center; 
+}
 
-        h1 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
+h1 {
+font-size: 1.6rem;
+font-weight: 800;
+color: var(--primary);
+margin-bottom: 4px;
+}
 
-        .promo-text {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #d97706;
-            margin-bottom: 12px;
-        }
+.promo-text {
+font-size: 1rem;
+font-weight: 700;
+color: #d97706;
+margin-bottom: 4px;
+}
 
-        .circles-grid { 
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px; 
-            margin-top: 10px;
-        }
+.hint-text {
+font-size: 0.8rem;
+color: #71717a;
+margin-bottom: 12px;
+}
 
-        .circle { 
-            aspect-ratio: 1;
-            border-radius: 50%; 
-            border: 2px dashed #d1d5db; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: 700; 
-            font-size: 0.9rem;
-            color: #71717a;
-            background: #fafafa;
-        }
+.circles-grid { 
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 8px; 
+margin-top: 10px;
+}
 
-        .circle.free { 
-            grid-column: span 2;
-            aspect-ratio: auto;
-            height: 44px;
-            border: 2px solid var(--gold); 
-            background: var(--gold-light); 
-            color: #b45309; 
-            font-size: 0.85rem;
-        }
+.circle { 
+aspect-ratio: 1;
+border-radius: 50%; 
+border: 2px dashed #d1d5db; 
+display: flex; 
+align-items: center; 
+justify-content: center; 
+font-weight: 700; 
+font-size: 0.9rem;
+color: #71717a;
+background: #fafafa;
+cursor: pointer;
+user-select: none;
+transition: all 0.2s ease;
+}
 
-        h2 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
+/* Стиль замальованого кружечка */
+.circle.filled {
+background: var(--primary);
+color: white;
+border: 2px solid var(--primary);
+}
 
-        .hidden { display: none !important; }
+.circle.free { 
+grid-column: span 2;
+aspect-ratio: auto;
+height: 44px;
+border: 2px solid var(--gold); 
+background: var(--gold-light); 
+color: #b45309; 
+font-size: 0.85rem;
+}
 
-        ul { list-style: none; text-align: left; }
-        
-        li { 
-            padding: 10px 0; 
-            border-bottom: 1px dashed var(--border); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            font-weight: 600;
-        }
-        li:last-child { border-bottom: none; }
-        
-        .price { 
-            background: #f4f4f5; 
-            padding: 4px 10px; 
-            border-radius: 12px; 
-            font-size: 0.9rem;
-        }
+.circle.free.filled {
+background: var(--gold);
+color: white;
+}
 
-        input { 
-            width: 100%; 
-            padding: 10px 12px; 
-            margin: 6px 0; 
-            border: 1.5px solid var(--border); 
-            border-radius: 10px; 
-            font-size: 0.9rem;
-            outline: none;
-            font-family: inherit;
-        }
+h2 {
+font-size: 1.2rem;
+font-weight: 800;
+color: var(--primary);
+margin-bottom: 12px;
+}
 
-        button { 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            width: 100%; 
-            font-weight: 700; 
-            font-size: 0.9rem;
-            margin-top: 6px;
-        }
+.hidden { display: none !important; }
 
-        .del-btn { 
-            background: #ef4444; 
-            color: white; 
-            border: none; 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            width: auto; 
-            margin: 0; 
-            font-size: .badge {
-            background: #dcfce7;
-            color: #15803d;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-    </style>
+ul { list-style: none; text-align: left; }
+
+li { 
+padding: 10px 0; 
+border-bottom: 1px dashed var(--border); 
+display: flex; 
+justify-content: space-between; 
+align-items: center;
+font-weight: 600;
+}
+li:last-child { border-bottom: none; }
+
+.price { 
+background: #f4f4f5; 
+padding: 4px 10px; 
+border-radius: 12px; 
+font-size: 0.9rem;
+}
+
+input { 
+width: 100%; 
+padding: 10px 12px; 
+margin: 6px 0; 
+border: 1.5px solid var(--border); 
+border-radius: 10px; 
+font-size: 0.9rem;
+outline: none;
+font-family: inherit;
+}
+
+Вася:
+button { 
+background: var(--primary); 
+color: white; 
+border: none; 
+padding: 10px; 
+border-radius: 10px; 
+cursor: pointer; 
+width: 100%; 
+font-weight: 700; 
+font-size: 0.9rem;
+margin-top: 6px;
+}
+
+.del-btn { 
+background: #ef4444; 
+color: white; 
+border: none; 
+padding: 4px 8px; 
+border-radius: 6px; 
+cursor: pointer; 
+width: auto; 
+margin: 0; 
+font-size: 0.75rem; 
+}
+
+.badge {
+background: #dcfce7;
+color: #15803d;
+padding: 4px 10px;
+border-radius: 12px;
+font-size: 0.8rem;
+font-weight: 700;
+display: inline-block;
+margin-bottom: 8px;
+}
+</style>
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <div class="card">
-            <h1>Кава Торопига</h1>
-            <p class="promo-text">Сьома кава в подарунок!</p>
-            
-            <div class="circles-grid">
-                <div class="circle">1</div>
-                <div class="circle">2</div>
-                <div class="circle">3</div>
-                <div class="circle">4</div>
-                <div class="circle">5</div>
-                <div class="circle">6</div>
-                <div class="circle free">🎁 7-ма FREE</div>
-            </div>
-        </div>
+<!-- 1. ЗАГОЛОВОК ТА АКЦІЯ С 7 КРУЖЕЧКАМИ -->
+<div class="card">
+<h1>Кава Торопига</h1>
+<p class="promo-text">Сьома кава в подарунок!</p>
+<p class="hint-text">Торкніться кружечка, щоб замалювати позначку</p>
 
-        <div class="card">
-            <h2>Меню напоїв</h2>
-            <ul id="coffee-list"></ul>
-        </div>
+<div class="circles-grid" id="circles-container">
+<!-- Кружечки генеруються динамічно через JS -->
+</div>
+</div>
 
-        <div class="card">
-            <h2>Вхід для баристи</h2>
-            
-            <div id="login-box">
-                <input type="password" id="pass-input" placeholder="Введіть пароль...">
-                <button onclick="checkPassword()">Увійти</button>
-                <p id="error-msg" style="color: #ef4444; font-size: 0.85rem; display: none; margin-top: 6px;">Невірний пароль!</p>
-            </div>
+<!-- 2. МЕНЮ НАПОЇВ -->
+<div class="card">
+<h2>Меню напоїв</h2>
+<ul id="coffee-list"></ul>
+</div>
 
-            <div id="admin-box" class="hidden">
-                <span class="badge">✓ Режим баристи</span>
-                <input type="text" id="coffee-name" placeholder="Назва напою">
-                <input type="number" id="coffee-price" placeholder="Ціна (грн)">
-                <button onclick="addNewCoffee()">Додати в меню</button>
+<!-- 3. ВХІД ДЛЯ БАРИСТИ -->
+<div class="card">
+<h2>Вхід для баристи</h2>
 
-                <h3 style="margin-top: 16px; font-size: 0.95rem; color: var(--primary); text-align: left;">Керування меню:</h3>
-                <ul id="barista-list" style="margin-top: 8px;"></ul>
-            </div>
-        </div>
+<div id="login-box">
+<input type="password" id="pass-input" placeholder="Введіть пароль...">
+<button onclick="checkPassword()">Увійти</button>
+<p id="error-msg" style="color: #ef4444; font-size: 0.85rem; display: none; margin-top: 6px;">Невірний пароль!</p>
+</div>
 
-    </div>
+<div id="admin-box" class="hidden">
+<span class="badge">✓ Режим баристи</span>
+<input type="text" id="coffee-name" placeholder="Назва напою">
+<input type="number" id="coffee-price" placeholder="Ціна (грн)">
+<button onclick="addNewCoffee()">Додати в меню</button>
 
-    <script>
-        const SECRET_PASS = "1616";
+<h3 style="margin-top: 16px; font-size: 0.95rem; color: var(--primary); text-align: left;">Керування меню:</h3>
+<ul id="barista-list" style="margin-top: 8px;"></ul>
+</div>
+</div>
 
-        const defaultMenu = [
-            { name: "Еспресо", price: 40 },
-            { name: "Капучино", price: 60 },
-            { name: "Лате", price: 65 }
-        ];
+</div>
 
-        function getMenu() {
-            const saved = localStorage.getItem('coffeeMenu');
-            return saved ? JSON.parse(saved) : defaultMenu;
-        }
+<script>
+const SECRET_PASS = "1616";
 
-        function saveMenu(menu) {
-            localStorage.setItem('coffeeMenu', JSON.stringify(menu));
-            renderMenu();
-            renderBaristaList();
-        }
+const defaultMenu = [
+{ name: "Еспресо", price: 40 },
+{ name: "Капучино", price: 60 },
+{ name: "Лате", price: 65 }
+];
 
-        function renderMenu() {
-            const menu = getMenu();
-            const list = document.getElementById('coffee-list');
-            list.innerHTML = '';
+// --- ЛОГІКА ЗАМАЛЬОВУВАННЯ КРУЖЕЧКІВ ---
+function getStamps() {
+return Number(localStorage.getItem('coffeeStamps')) || 0;
+}
 
-            menu.forEach(item => {
-                const li = document.createElement('li');
-                li.innerHTML = `<span>${item.name}</span><span class="price">${item.price} грн</span>`;
-                list.appendChild(li);
-            });
-        }
+function setStamps(count) {
+localStorage.setItem('coffeeStamps', count);
+renderCircles();
+}
 
-        function renderBaristaList() {
-            const menu = getMenu();
-            const list = document.getElementById('barista-list');
-            list.innerHTML = '';
+function toggleStamp(num) {
+let current = getStamps();
+if (current === num) {
+setStamps(num - 1); // Скидаємо останній
+} else {
+setStamps(num); // Замальовуємо до натиснутого
+}
+}
 
-            menu.forEach((item, index) => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span>${item.name} (${item.price} грн)</span>
-                    <button class="del-btn" onclick="deleteCoffee(${index})">Видалити</button>
-                `;
-                list.appendChild(li);
-            });
-        }
+function renderCircles() {
+const container = document.getElementById('circles-container');
+const stamps = getStamps();
+container.innerHTML = '';
 
-        function checkPassword() {
-            const input = document.getElementById('pass-input').value;
-            if (input === SECRET_PASS) {
-                document.getElementById('login-box').classList.add('hidden');
-                document.getElementById('admin-box').classList.remove('hidden');
-                renderBaristaList();
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-            }
-        }function addNewCoffee() {
-            const name = document.getElementById('coffee-name').value;
-            const price = document.getElementById('coffee-price').value;
+for (let i = 1; i <= 6; i++) {
+const circle = document.createElement('div');
+circle.className = circle ${i <= stamps ? 'filled' : ''};
+circle.innerText = i <= stamps ? '✓' : i;
+circle.onclick = () => toggleStamp(i);
+container.appendChild(circle);
+}
 
-            if (name && price) {
-                const menu = getMenu();
-                menu.push({ name, price: Number(price) });
-                saveMenu(menu);
+Вася:
+// 7-й безкоштовний кружечок
+const freeCircle = document.createElement('div');
+freeCircle.className = circle free ${7 <= stamps ? 'filled' : ''};
+freeCircle.innerText = 7 <= stamps ? '🎉 Отримано!' : '🎁 7-ма FREE';
+freeCircle.onclick = () => toggleStamp(7);
+container.appendChild(freeCircle);
+}
 
-                document.getElementById('coffee-name').value = '';
-                document.getElementById('coffee-price').value = '';
-            }
-        }
+// --- ЛОГІКА МЕНЮ ТА АДМІНКИ ---
+function getMenu() {
+const saved = localStorage.getItem('coffeeMenu');
+return saved ? JSON.parse(saved) : defaultMenu;
+}
 
-        function deleteCoffee(index) {
-            const menu = getMenu();
-            menu.splice(index, 1);
-            saveMenu(menu);
-        }
+function saveMenu(menu) {
+localStorage.setItem('coffeeMenu', JSON.stringify(menu));
+renderMenu();
+renderBaristaList();
+}
 
-        renderMenu();
-    </script>
+function renderMenu() {
+const menu = getMenu();
+const list = document.getElementById('coffee-list');
+list.innerHTML = '';
+
+menu.forEach(item => {
+const li = document.createElement('li');
+li.innerHTML = <span>${item.name}</span><span class="price">${item.price} грн</span>;
+list.appendChild(li);
+});
+}
+
+function renderBaristaList() {
+const menu = getMenu();
+const list = document.getElementById('barista-list');
+list.innerHTML = '';
+
+menu.forEach((item, index) => {
+const li = document.createElement('li');
+li.innerHTML = 
+<span>${item.name} (${item.price} грн)</span>
+<button class="del-btn" onclick="deleteCoffee(${index})">Видалити</button>
+;
+list.appendChild(li);
+});
+}
+
+function checkPassword() {
+const input = document.getElementById('pass-input').value;
+if (input === SECRET_PASS) {
+document.getElementById('login-box').classList.add('hidden');
+document.getElementById('admin-box').classList.remove('hidden');
+renderBaristaList();
+} else {
+document.getElementById('error-msg').style.display = 'block';
+}
+}
+
+function addNewCoffee() {
+const name = document.getElementById('coffee-name').value;
+const price = document.getElementById('coffee-price').value;
+
+if (name && price) {
+const menu = getMenu();
+menu.push({ name, price: Number(price) });
+saveMenu(menu);
+
+document.getElementById('coffee-name').value = '';
+document.getElementById('coffee-price').value = '';
+}
+}
+
+function deleteCoffee(index) {
+const menu = getMenu();
+menu.splice(index, 1);
+saveMenu(menu);
+}
+
+// Запуск при відкритті
+renderCircles();
+renderMenu();
+</script>
 
 </body>
 </html>
