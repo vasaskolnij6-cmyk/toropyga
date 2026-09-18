@@ -1,0 +1,101 @@
+Вася:
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Панель Баристи</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f5f2eb; padding: 20px; display: flex; justify-content: center; }
+.card { background: white; padding: 24px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; }
+h2 { color: #3d2314; margin-bottom: 12px; }
+input { width: 100%; padding: 12px; margin: 6px 0; border: 1.5px solid #e4e4e7; border-radius: 10px; box-sizing: border-box; }
+button { background: #3d2314; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 8px; }
+.hidden { display: none; }
+.badge { background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; display: inline-block; margin-bottom: 10px; }
+ul { list-style: none; text-align: left; margin-top: 15px; }
+li { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+.del-btn { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; width: auto; margin: 0; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Панель Баристи</h2>
+
+<!-- Авторизація -->
+<div id="login-box">
+<input type="password" id="pass" placeholder="Введіть пароль...">
+<button onclick="login()">Увійти</button>
+<p id="err" style="color: red; display:none; margin-top: 8px; font-size: 0.85rem;">Невірний пароль!</p>
+</div>
+
+<!-- Керування меню -->
+<div id="admin-box" class="hidden">
+<span class="badge">✓ Режим баристи</span>
+<input type="text" id="name" placeholder="Назва напою">
+<input type="number" id="price" placeholder="Ціна (грн)">
+<button onclick="addCoffee()">Додати в меню</button>
+
+<h3 style="margin-top: 20px; font-size: 1rem; color: #3d2314;">Поточне меню:</h3>
+<ul id="barista-list"></ul>
+</div>
+</div>
+
+<script>
+const PASS = "1616";
+
+function login() {
+if (document.getElementById('pass').value === PASS) {
+document.getElementById('login-box').classList.add('hidden');
+document.getElementById('admin-box').classList.remove('hidden');
+renderBaristaList();
+} else {
+document.getElementById('err').style.display = 'block';
+}
+}
+
+function getMenu() {
+return JSON.parse(localStorage.getItem('coffeeMenu')) || [];
+}
+
+function renderBaristaList() {
+const menu = getMenu();
+const list = document.getElementById('barista-list');
+list.innerHTML = '';
+
+menu.forEach((item, index) => {
+const li = document.createElement('li');
+li.innerHTML = 
+<span>${item.name} (${item.price} грн)</span>
+<button class="del-btn" onclick="deleteCoffee(${index})">Видалити</button>
+;
+list.appendChild(li);
+});
+}
+
+function addCoffee() {
+const name = document.getElementById('name').value;
+const price = document.getElementById('price').value;
+
+if (name && price) {
+let currentMenu = getMenu();
+currentMenu.push({ name, price: Number(price) });
+localStorage.setItem('coffeeMenu', JSON.stringify(currentMenu));
+
+Вася:
+document.getElementById('name').value = '';
+document.getElementById('price').value = '';
+renderBaristaList();
+}
+}
+
+function deleteCoffee(index) {
+let currentMenu = getMenu();
+currentMenu.splice(index, 1);
+localStorage.setItem('coffeeMenu', JSON.stringify(currentMenu));
+renderBaristaList();
+}
+</script>
+</body>
+</html>
