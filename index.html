@@ -1,302 +1,289 @@
-Вася:
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Кава Торопига</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
---bg: #f5f2eb;
---card-bg: #ffffff;
---primary: #3d2314;
---border: #e4e4e7;
---gold: #f59e0b;
---gold-light: #fef3c7;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кава Торопига</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f2eb;
+            --card-bg: #ffffff;
+            --primary: #3d2314;
+            --border: #e4e4e7;
+            --gold: #f59e0b;
+            --gold-light: #fef3c7;
+        }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body { 
-font-family: 'Plus Jakarta Sans', sans-serif; 
-background-color: var(--bg); 
-color: #27272a;
-padding: 20px 16px;
-display: flex;
-justify-content: center;
-}
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: #27272a;
+            padding: 20px 16px;
+            display: flex;
+            justify-content: center;
+        }
 
-.container {
-width: 100%;
-max-width: 420px;
-display: flex;
-flex-direction: column;
-gap: 16px;
-}
+        .container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-.card { 
-background: var(--card-bg); 
-padding: 20px; 
-border-radius: 20px; 
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-border: 1px solid var(--border);
-text-align: center; 
-}
+        .card { 
+            background: var(--card-bg); 
+            padding: 20px; 
+            border-radius: 20px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+            text-align: center; 
+        }
 
-h1 {
-font-size: 1.6rem;
-font-weight: 800;
-color: var(--primary);
-margin-bottom: 4px;
-}
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
 
-.promo-text {
-font-size: 1rem;
-font-weight: 700;
-color: #d97706;
-margin-bottom: 12px;
-}
+        .promo-text {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #d97706;
+            margin-bottom: 12px;
+        }
 
-/* 7 кружечків */
-.circles-grid { 
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 8px; 
-margin-top: 10px;
-}
+        .circles-grid { 
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px; 
+            margin-top: 10px;
+        }
 
-.circle { 
-aspect-ratio: 1;
-border-radius: 50%; 
-border: 2px dashed #d1d5db; 
-display: flex; 
-align-items: center; 
-justify-content: center; 
-font-weight: 700; 
-font-size: 0.9rem;
-color: #71717a;
-background: #fafafa;
-}
+        .circle { 
+            aspect-ratio: 1;
+            border-radius: 50%; 
+            border: 2px dashed #d1d5db; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700; 
+            font-size: 0.9rem;
+            color: #71717a;
+            background: #fafafa;
+        }
 
-.circle.free { 
-grid-column: span 2;
-aspect-ratio: auto;
-height: 44px;
-border: 2px solid var(--gold); 
-background: var(--gold-light); 
-color: #b45309; 
-font-size: 0.85rem;
-}
+        .circle.free { 
+            grid-column: span 2;
+            aspect-ratio: auto;
+            height: 44px;
+            border: 2px solid var(--gold); 
+            background: var(--gold-light); 
+            color: #b45309; 
+            font-size: 0.85rem;
+        }
 
-h2 {
-font-size: 1.2rem;
-font-weight: 800;
-color: var(--primary);
-margin-bottom: 12px;
-}
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
 
-.hidden { display: none !important; }
+        .hidden { display: none !important; }
 
-ul { list-style: none; text-align: left; }
+        ul { list-style: none; text-align: left; }
+        
+        li { 
+            padding: 10px 0; 
+            border-bottom: 1px dashed var(--border); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-weight: 600;
+        }
+        li:last-child { border-bottom: none; }
+        
+        .price { 
+            background: #f4f4f5; 
+            padding: 4px 10px; 
+            border-radius: 12px; 
+            font-size: 0.9rem;
+        }
 
-li { 
-padding: 10px 0; 
-border-bottom: 1px dashed var(--border); 
-display: flex; 
-justify-content: space-between; 
-align-items: center;
-font-weight: 600;
-}
-li:last-child { border-bottom: none; }
+        input { 
+            width: 100%; 
+            padding: 10px 12px; 
+            margin: 6px 0; 
+            border: 1.5px solid var(--border); 
+            border-radius: 10px; 
+            font-size: 0.9rem;
+            outline: none;
+            font-family: inherit;
+        }
 
-.price { 
-background: #f4f4f5; 
-padding: 4px 10px; 
-border-radius: 12px; 
-font-size: 0.9rem;
-}
+        button { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: 700; 
+            font-size: 0.9rem;
+            margin-top: 6px;
+        }
 
-input { 
-width: 100%; 
-padding: 10px 12px; 
-margin: 6px 0; 
-border: 1.5px solid var(--border); 
-border-radius: 10px; 
-font-size: 0.9rem;
-outline: none;
-font-family: inherit;
-}
-
-button { 
-background: var(--primary); 
-color: white; 
-border: none; 
-padding: 10px; 
-border-radius: 10px; 
-cursor: pointer; 
-width: 100%; 
-font-weight: 700; 
-font-size: 0.9rem;
-margin-top: 6px;
-}
-
-.del-btn { 
-background: #ef4444; 
-color: white; 
-border: none; 
-padding: 4px 8px; 
-border-radius: 6px; 
-cursor: pointer; 
-width: auto; 
-margin: 0; 
-font-size: 0.75rem; 
-}
-
-Вася:
-.badge {
-background: #dcfce7;
-color: #15803d;
-padding: 4px 10px;
-border-radius: 12px;
-font-size: 0.8rem;
-font-weight: 700;
-display: inline-block;
-margin-bottom: 8px;
-}
-</style>
+        .del-btn { 
+            background: #ef4444; 
+            color: white; 
+            border: none; 
+            padding: 4px 8px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            width: auto; 
+            margin: 0; 
+            font-size: .badge {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <div class="container">
 
-<!-- 1. ЗАГОЛОВОК ТА АКЦІЯ -->
-<div class="card">
-<h1>Кава Торопига</h1>
-<p class="promo-text">Сьома кава в подарунок!</p>
+        <div class="card">
+            <h1>Кава Торопига</h1>
+            <p class="promo-text">Сьома кава в подарунок!</p>
+            
+            <div class="circles-grid">
+                <div class="circle">1</div>
+                <div class="circle">2</div>
+                <div class="circle">3</div>
+                <div class="circle">4</div>
+                <div class="circle">5</div>
+                <div class="circle">6</div>
+                <div class="circle free">🎁 7-ма FREE</div>
+            </div>
+        </div>
 
-<div class="circles-grid">
-<div class="circle">1</div>
-<div class="circle">2</div>
-<div class="circle">3</div>
-<div class="circle">4</div>
-<div class="circle">5</div>
-<div class="circle">6</div>
-<div class="circle free">🎁 7-ма FREE</div>
-</div>
-</div>
+        <div class="card">
+            <h2>Меню напоїв</h2>
+            <ul id="coffee-list"></ul>
+        </div>
 
-<!-- 2. МЕНЮ НАПОЇВ -->
-<div class="card">
-<h2>Меню напоїв</h2>
-<ul id="coffee-list"></ul>
-</div>
+        <div class="card">
+            <h2>Вхід для баристи</h2>
+            
+            <div id="login-box">
+                <input type="password" id="pass-input" placeholder="Введіть пароль...">
+                <button onclick="checkPassword()">Увійти</button>
+                <p id="error-msg" style="color: #ef4444; font-size: 0.85rem; display: none; margin-top: 6px;">Невірний пароль!</p>
+            </div>
 
-<!-- 3. ВХІД ДЛЯ БАРИСТИ (пароль 1616) -->
-<div class="card">
-<h2>Вхід для баристи</h2>
+            <div id="admin-box" class="hidden">
+                <span class="badge">✓ Режим баристи</span>
+                <input type="text" id="coffee-name" placeholder="Назва напою">
+                <input type="number" id="coffee-price" placeholder="Ціна (грн)">
+                <button onclick="addNewCoffee()">Додати в меню</button>
 
-<div id="login-box">
-<input type="password" id="pass-input" placeholder="Введіть пароль...">
-<button onclick="checkPassword()">Увійти</button>
-<p id="error-msg" style="color: #ef4444; font-size: 0.85rem; display: none; margin-top: 6px;">Невірний пароль!</p>
-</div>
+                <h3 style="margin-top: 16px; font-size: 0.95rem; color: var(--primary); text-align: left;">Керування меню:</h3>
+                <ul id="barista-list" style="margin-top: 8px;"></ul>
+            </div>
+        </div>
 
-<div id="admin-box" class="hidden">
-<span class="badge">✓ Режим баристи</span>
-<input type="text" id="coffee-name" placeholder="Назва напою">
-<input type="number" id="coffee-price" placeholder="Ціна (грн)">
-<button onclick="addNewCoffee()">Додати в меню</button>
+    </div>
 
-<h3 style="margin-top: 16px; font-size: 0.95rem; color: var(--primary); text-align: left;">Керування меню:</h3>
-<ul id="barista-list" style="margin-top: 8px;"></ul>
-</div>
-</div>
+    <script>
+        const SECRET_PASS = "1616";
 
-</div>
+        const defaultMenu = [
+            { name: "Еспресо", price: 40 },
+            { name: "Капучино", price: 60 },
+            { name: "Лате", price: 65 }
+        ];
 
-<script>
-const SECRET_PASS = "1616";
+        function getMenu() {
+            const saved = localStorage.getItem('coffeeMenu');
+            return saved ? JSON.parse(saved) : defaultMenu;
+        }
 
-const defaultMenu = [
-{ name: "Еспресо", price: 40 },
-{ name: "Капучино", price: 60 },
-{ name: "Лате", price: 65 }
-];
+        function saveMenu(menu) {
+            localStorage.setItem('coffeeMenu', JSON.stringify(menu));
+            renderMenu();
+            renderBaristaList();
+        }
 
-function getMenu() {
-const saved = localStorage.getItem('coffeeMenu');
-return saved ? JSON.parse(saved) : defaultMenu;
-}
+        function renderMenu() {
+            const menu = getMenu();
+            const list = document.getElementById('coffee-list');
+            list.innerHTML = '';
 
-function saveMenu(menu) {
-localStorage.setItem('coffeeMenu', JSON.stringify(menu));
-renderMenu();
-renderBaristaList();
-}
+            menu.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${item.name}</span><span class="price">${item.price} грн</span>`;
+                list.appendChild(li);
+            });
+        }
 
-function renderMenu() {
-const menu = getMenu();
-const list = document.getElementById('coffee-list');
-list.innerHTML = '';
+        function renderBaristaList() {
+            const menu = getMenu();
+            const list = document.getElementById('barista-list');
+            list.innerHTML = '';
 
-menu.forEach(item => {
-const li = document.createElement('li');
-li.innerHTML = <span>${item.name}</span><span class="price">${item.price} грн</span>;
-list.appendChild(li);
-});
-}
+            menu.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${item.name} (${item.price} грн)</span>
+                    <button class="del-btn" onclick="deleteCoffee(${index})">Видалити</button>
+                `;
+                list.appendChild(li);
+            });
+        }
 
-function renderBaristaList() {
-const menu = getMenu();
-const list = document.getElementById('barista-list');
-list.innerHTML = '';
+        function checkPassword() {
+            const input = document.getElementById('pass-input').value;
+            if (input === SECRET_PASS) {
+                document.getElementById('login-box').classList.add('hidden');
+                document.getElementById('admin-box').classList.remove('hidden');
+                renderBaristaList();
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }function addNewCoffee() {
+            const name = document.getElementById('coffee-name').value;
+            const price = document.getElementById('coffee-price').value;
 
-menu.forEach((item, index) => {
-const li = document.createElement('li');
-li.innerHTML = 
-<span>${item.name} (${item.price} грн)</span>
-<button class="del-btn" onclick="deleteCoffee(${index})">Видалити</button>
-;
-list.appendChild(li);
-});
-}
+            if (name && price) {
+                const menu = getMenu();
+                menu.push({ name, price: Number(price) });
+                saveMenu(menu);
 
-function checkPassword() {
-const input = document.getElementById('pass-input').value;
-if (input === SECRET_PASS) {
-document.getElementById('login-box').classList.add('hidden');
+                document.getElementById('coffee-name').value = '';
+                document.getElementById('coffee-price').value = '';
+            }
+        }
 
-Вася:
-document.getElementById('admin-box').classList.remove('hidden');
-renderBaristaList();
-} else {
-document.getElementById('error-msg').style.display = 'block';
-}
-}
+        function deleteCoffee(index) {
+            const menu = getMenu();
+            menu.splice(index, 1);
+            saveMenu(menu);
+        }
 
-function addNewCoffee() {
-const name = document.getElementById('coffee-name').value;
-const price = document.getElementById('coffee-price').value;
-
-if (name && price) {
-const menu = getMenu();
-menu.push({ name, price: Number(price) });
-saveMenu(menu);
-
-document.getElementById('coffee-name').value = '';
-document.getElementById('coffee-price').value = '';
-}
-}
-
-function deleteCoffee(index) {
-const menu = getMenu();
-menu.splice(index, 1);
-saveMenu(menu);
-}
-
-renderMenu();
-</script>
+        renderMenu();
+    </script>
 
 </body>
 </html>
