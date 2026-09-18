@@ -1,4 +1,4 @@
-Вася:
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -139,7 +139,7 @@ border-radius: 20px;
 font-size: 0.9rem;
 }
 
-Вася:
+
 /* Форми та кнопки */
 input { 
 width: 100%; 
@@ -256,7 +256,7 @@ document.getElementById('error-msg').style.display = 'block';
 }
 }
 
-Вася:
+
 function addNewCoffee() {
 const name = document.getElementById('coffee-name').value;
 const price = document.getElementById('coffee-price').value;
@@ -495,44 +495,17 @@ margin-bottom: 12px;
 <div class="card">
 <h2>Меню напоїв</h2>
 <ul id="coffee-list">
-<li><span class="item-name">Еспресо</span> <span class="item-price">40 грн</span></li>
+<li><span class="item-name"></span> <span class="item-price">40 грн</span></li>
 <li><span class="item-name">Капучино</span> <span class="item-price">60 грн</span></li>
 <li><span class="item-name">Лате</span> <span class="item-price">65 грн</span></li>
 </ul>
 </div>
 
-<!-- ЗОНА БАРИСТИ -->
+<!-- ЗОНА БАРИСТИ --
 <div class="card">
 <h2>Вхід для баристи</h2>
 
-<div id="login-form">
-<input type="password" id="pass-input" placeholder="Введіть пароль...">
-<button onclick="checkPassword()">Увійти</button>
-<p id="error-msg" style="color: #ef4444; font-size: 0.85rem; display: none; margin-top: 8px;">Невірний пароль!</p>
-</div>
-
-<div id="add-coffee-form" class="hidden">
-<span class="badge-barista">✓ Режим баристи</span>
-<input type="text" id="coffee-name" placeholder="Назва напою">
-<input type="number" id="coffee-price" placeholder="Ціна (грн)">
-<button onclick="addNewCoffee()">Додати в меню</button>
-</div>
-</div>
-
-</div>
-
-<script>
-const SECRET_PASS = "1616";
-
-function checkPassword() {
-const input = document.getElementById('pass-input').value;
-if (input === SECRET_PASS) {
-document.getElementById('login-form').classList.add('hidden');
-document.getElementById('add-coffee-form').classList.remove('hidden');
-} else {
-document.getElementById('error-msg').style.display = 'block';
-}
-}
+<div id="login-
 
 
 
