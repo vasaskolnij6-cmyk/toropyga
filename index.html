@@ -3,15 +3,88 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>Меню кав'ярні</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карртка лояльності кав'ярні</title>
+<style>
+body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f9; padding: 20px; }
+.card { background: white; max-width: 350px; margin: 0 auto; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.cups { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0; }
+.cup { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #8b5a2b; display: flex; align-items: center; justify-content: center; font-size: 20px; background: #fff; }
+.cup.active { background: #8b5a2b; color: white; }
+.cup.free { border-color: #e74c3c; background: #ffeae6; }
+.cup.free.active { background: #e74c3c; color: white; }
+button { background: #8b5a2b; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-bottom: 20px; }
+button:hover { background: #6f4721; }
+.qr-section { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; }
+</style>
 </head>
 <body>
-<h1>Меню кав'ярні</h1>
-<ul>
-<li><strong>Еспресо</strong> — 40 грн</li>
-<li><strong>Капучино</strong> — 60 грн</li>
-<li><strong>Лате</strong> — 65 грн</li>
-<li><strong>Флет Вайт</strong> — 70 грн</li>
-</ul>
+
+<div class="card">
+<h2>Кава лояльності ☕</h2>
+<p>Кожна 7-ма чашка — безкоштовно!</p>
+
+<div class="cups" id="cupsContainer">
+<div class="cup" id="cup1">1</div>
+<div class="cup" id="cup2">2</div>
+<div class="cup" id="cup3">3</div>
+<div class="cup" id="cup4">4</div>
+<div class="cup" id="cup5">5</div>
+<div class="cup" id="cup6">6</div>
+<div class="cup free" id="cup7">🎁</div>
+</div>
+
+<button onclick="addCup()">Додати чашку</button>
+<button onclick="resetCups()" style="background:#ccc; color:#333;">Скинути</button>
+
+<h3 id="statusMessage">Зібрано чашок: 0 z 7</h3>
+
+<div class="qr-section">
+<p>Ваш QR-код карточки:</p>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://vasaskolnij6-cmyk.github.io/toropyga/" alt="QR Code">
+</div>
+</div>
+
+<script>
+let count = parseInt(localStorage.getItem('coffeeCount')) || 0;
+
+function updateUI() {
+for (let i = 1; i <= 7; i++) {
+const cup = document.getElementById('cup' + i);
+if (i <= count) {
+cup.classList.add('active');
+} else {
+cup.classList.remove('active');
+}
+}
+
+const status = document.getElementById('statusMessage');
+if (count >= 7) {
+status.innerHTML = "🎉 7-ма чашка БЕЗКОШТОВНО!";
+status.style.color = "#e74c3c";
+} else {
+status.innerHTML = Зібрано чашок: ${count} з 7;
+status.style.color = "#333";
+}
+}
+
+function addCup() {
+if (count < 7) {
+count++;
+localStorage.setItem('coffeeCount', count);
+updateUI();
+}
+}
+
+function resetCups() {
+count = 0;
+localStorage.setItem('coffeeCount', count);
+updateUI();
+}
+
+updateUI();
+</script>
+
 </body>
 </html>
+16:34
