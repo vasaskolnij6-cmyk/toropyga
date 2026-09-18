@@ -1,67 +1,59 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Меню Кав'ярні</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root { --bg: #f5f2eb; --card-bg: #ffffff; --primary: #3d2314; }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); padding: 20px 16px; display: flex; justify-content: center; }
-.container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 16px; }
-.card { background: var(--card-bg); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #e4e4e7; }
-h2 { color: var(--primary); font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; }
-.qr-wrapper { background: var(--bg); padding: 12px; border-radius: 12px; display: inline-block; }
-.qr-img { width: 150px; height: 150px; display: block; }
-ul { list-style: none; text-align: left; }
-li { padding: 12px 0; border-bottom: 1px dashed #e4e4e7; display: flex; justify-content: space-between; font-weight: 600; }
-li:last-child { border-bottom: none; }
-.price { background: #f4f4f5; padding: 4px 10px; border-radius: 12px; }
-.empty-msg { color: #71717a; font-size: 0.9rem; padding: 10px 0; }
-</style>
-</head>
-<body>
-<div class="container">
-<!-- QR КОД -->
-<div class="card">
-<h2>Наш QR-код</h2>
-<div class="qr-wrapper">
-<img class="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com" alt="QR Code">
-</div>
-</div>
 
-<!-- МЕНЮ -->
-<div class="card">
-<h2>Меню напоїв</h2>
-<ul id="coffee-list"></ul>
-</div>
-</div>
-
-<script>
-function loadMenu() {
-const savedMenu = JSON.parse(localStorage.getItem('coffeeMenu')) || [];
-const list = document.getElementById('coffee-list');
+// Відображення меню для баристи (із кнопкою видалення)
+function renderBaristaList() {
+const menu = getMenu();
+const list = document.getElementById('barista-list');
 list.innerHTML = '';
 
-if (savedMenu.length === 0) {
-list.innerHTML = '<p class="empty-msg">Меню поки порожнє. Бариста скоро додасть напої!</p>';
-return;
-}
-
-savedMenu.forEach(item => {
+menu.forEach((item, index) => {
 const li = document.createElement('li');
-li.innerHTML = <span>${item.name}</span><span class="price">${item.price} грн</span>;
+li.innerHTML = 
+<span>${item.name} (${item.price} грн)</span>
+<button class="del-btn" onclick="deleteCoffee(${index})">Видалити</button>
+;
 list.appendChild(li);
 });
 }
 
-loadMenu();
+// Перевірка пароля
+function checkPassword() {
+const input = document.getElementById('pass-input').value;
+if (input === SECRET_PASS) {
+document.getElementById('login-box').classList.add('hidden');
+document.getElementById('admin-box').classList.remove('hidden');
+renderBaristaList();
+} else {
+document.getElementById('error-msg').style.display = 'block';
+}
+}
+
+// Додавання кави
+function addNewCoffee() {
+const name = document.getElementById('coffee-name').value;
+const price = document.getElementById('coffee-price').value;
+
+if (name && price) {
+const menu = getMenu();
+menu.push({ name, price: Number(price) });
+saveMenu(menu);
+
+document.getElementById('coffee-name').value = '';
+document.getElementById('coffee-price').value = '';
+}
+}
+
+// Видалення кави
+function deleteCoffee(index) {
+const menu = getMenu();
+menu.splice(index, 1);
+saveMenu(menu);
+}
+
+// Первинне завантаження
+renderMenu();
 </script>
+
 </body>
-</html>17:34
-
-
-
+</html>
 
 
