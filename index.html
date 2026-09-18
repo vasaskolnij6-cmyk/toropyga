@@ -1,4 +1,4 @@
-Торопига
+Вася:
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Кава Торопига</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<!-- Бібліотека для автоматичної генерації QR-коду -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root {
 --bg: #f5f2eb;
@@ -86,10 +84,8 @@ color: #71717a;
 background: #fafafa;
 cursor: pointer;
 user-select: none;
-transition: all 0.2s ease;
 }
 
-/* Замальований кружечок */
 .circle.filled {
 background: var(--primary);
 color: white;
@@ -176,11 +172,6 @@ margin: 0;
 font-size: 0.75rem; 
 }
 
-.secondary-btn {
-background: #71717a;
-margin-top: 10px;
-}
-
 .badge {
 background: #dcfce7;
 color: #15803d;
@@ -192,15 +183,17 @@ display: inline-block;
 margin-bottom: 8px;
 }
 
-#qrcode {
+.qr-box {
 display: flex;
 justify-content: center;
 margin: 10px 0;
 }
-#qrcode img {
+.qr-box img {
 border-radius: 12px;
 border: 4px solid white;
 box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+width: 150px;
+height: 150px;
 }
 </style>
 </head>
@@ -208,29 +201,26 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 
 <div class="container">
 
-<!-- 1. АКТИВНА КАРТКА ЛОЯЛЬНОСТІ -->
 <div class="card">
 <h1>Кава Торопига</h1>
 <p class="promo-text">Сьома кава в подарунок!</p>
 <p class="hint-text">Натисніть на кружечок, щоб відмітити каву</p>
-
 <div class="circles-grid" id="circles-container"></div>
 </div>
 
-<!-- 2. QR-КОДД ДЛЯ КЛІЄНТІВ -->
 <div class="card">
 <h2>QR-код картки</h2>
-<div id="qrcode"></div>
+<div class="qr-box">
+<img id="qr-img" src="" alt="QR-код">
+</div>
 <p class="hint-text" style="margin-bottom:0;">Скануйте, щоб відкрити меню на своєму смартфоні</p>
 </div>
 
-<!-- 3. МЕНЮ НАПОЇВ -->
 <div class="card">
 <h2>Меню напоїв</h2>
 <ul id="coffee-list"></ul>
 </div>
 
-<!-- 4. ВХІД ДЛЯ БАРИСТИ -->
 <div class="card">
 <h2>Вхід для баристи</h2>
 
@@ -247,8 +237,6 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 <input type="number" id="coffee-price" placeholder="Ціна (грн)">
 <button onclick="addNewCoffee()">Додати в меню</button>
 
-<button onclick="resetStamps()" class="secondary-btn">Очистити відмітки лояльності</button>
-
 <h3 style="margin-top: 16px; font-size: 0.95rem; color: var(--primary); text-align: left;">Керування меню:</h3>
 <ul id="barista-list" style="margin-top: 8px;"></ul>
 </div>
@@ -259,22 +247,39 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 <script>
 const SECRET_PASS = "1616";
 
-const defaultMenu = [
+let localStamps = 0;
+let localMenu = [
 { name: "Еспресо", price: 40 },
 { name: "Капучино", price: 60 },
 { name: "Лате", price: 65 }
 ];
 
-// --- ЛОГІКА ЗАМАЛЬОВУВАННЯ ШТАМПІВ ---
+function safeGetStorage(key) {
+try {
+return localStorage.getItem(key);
+} catch (e) {
+return null;
+}
+}
+
+function safeSetStorage(key, val) {
+try {
+localStorage.setItem(key, val);
+} catch (e) {}
+}
+
 function getStamps() {
-return Number(localStorage.getItem('coffeeStamps')) || 0;
+const saved = safeGetStorage('coffeeStamps');
+return saved !== null ? Number(saved) : localStamps;
 }
 
 function setStamps(count) {
-localStorage.setItem('coffeeStamps', count);
+localStamps = count;
+safeSetStorage('coffeeStamps', count);
 renderCircles();
 }
 
+Вася:
 function toggleStamp(num) {
 let current = getStamps();
 if (current === num) {
@@ -284,15 +289,9 @@ setStamps(num);
 }
 }
 
-Вася:
-function resetStamps() {
-if (confirm("Очистити всі позначки лояльності?")) {
-setStamps(0);
-}
-}
-
 function renderCircles() {
 const container = document.getElementById('circles-container');
+if (!container) return;
 const stamps = getStamps();
 container.innerHTML = '';
 
@@ -311,14 +310,14 @@ freeCircle.onclick = () => toggleStamp(7);
 container.appendChild(freeCircle);
 }
 
-// --- ЛОГІКА МЕНЮ ---
 function getMenu() {
-const saved = localStorage.getItem('coffeeMenu');
-return saved ? JSON.parse(saved) : defaultMenu;
+const saved = safeGetStorage('coffeeMenu');
+return saved ? JSON.parse(saved) : localMenu;
 }
 
 function saveMenu(menu) {
-localStorage.setItem('coffeeMenu', JSON.stringify(menu));
+localMenu = menu;
+safeSetStorage('coffeeMenu', JSON.stringify(menu));
 renderMenu();
 renderBaristaList();
 }
@@ -326,6 +325,7 @@ renderBaristaList();
 function renderMenu() {
 const menu = getMenu();
 const list = document.getElementById('coffee-list');
+if (!list) return;
 list.innerHTML = '';
 
 menu.forEach(item => {
@@ -338,6 +338,7 @@ list.appendChild(li);
 function renderBaristaList() {
 const menu = getMenu();
 const list = document.getElementById('barista-list');
+if (!list) return;
 list.innerHTML = '';
 
 menu.forEach((item, index) => {
@@ -381,19 +382,14 @@ menu.splice(index, 1);
 saveMenu(menu);
 }
 
-// --- АВТОМАТИЧНА ГЕНЕРАЦІЯ QR-КОДУ ---
 function initQRCode() {
-new QRCode(document.getElementById("qrcode"), {
-text: window.location.href,
-width: 140,
-height: 140,
-colorDark: "#3d2314",
-colorLight: "#ffffff",
-correctLevel: QRCode.CorrectLevel.H
-});
+const qrImg = document.getElementById('qr-img');
+if (qrImg) {
+qrImg.src = https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.href)};
+}
 }
 
-// Ініціалізація
+// Запуск
 renderCircles();
 renderMenu();
 initQRCode();
