@@ -4,97 +4,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Панель Баристи</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+<title>Адмінка — Топорига</title>
 <style>
-body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f5f2eb; padding: 20px; display: flex; justify-content: center; }
-.card { background: white; padding: 24px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; }
-h2 { color: #3d2314; margin-bottom: 12px; }
-input { width: 100%; padding: 12px; margin: 6px 0; border: 1.5px solid #e4e4e7; border-radius: 10px; box-sizing: border-box; }
-button { background: #3d2314; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 8px; }
+body { font-family: system-ui, sans-serif; padding: 15px; max-width: 480px; margin: 0 auto; background: #f4f4f9; }
+.card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+input, button { width: 100%; padding: 12px; margin: 6px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 16px; }
+button { background: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; }
 .hidden { display: none; }
-.badge { background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; display: inline-block; margin-bottom: 10px; }
-ul { list-style: none; text-align: left; margin-top: 15px; }
-li { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-.del-btn { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; width: auto; margin: 0; font-size: 0.8rem; }
+.stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+.logout-btn { background: #dc3545; margin-top: 15px; }
 </style>
 </head>
 <body>
-<div class="card">
-<h2>Панель Баристи</h2>
 
-<!-- Авторизація -->
-<div id="login-box">
-<input type="password" id="pass" placeholder="Введіть пароль...">
-<button onclick="login()">Увійти</button>
-<p id="err" style="color: red; display:none; margin-top: 8px; font-size: 0.85rem;">Невірний пароль!</p>
+<!-- 1. ФОРМА ВХОДУ ДЛЯ ТЕЛЕФОНУ -->
+<div id="login-sec" class="card">
+<h2>🔑 Вхід в адмінку</h2>
+<input type="email" id="email" placeholder="Ваш Email">
+<input type="password" id="pass" placeholder="Пароль">
+<button id="login-btn">Увійти</button>
 </div>
 
-<!-- Керування меню -->
-<div id="admin-box" class="hidden">
-<span class="badge">✓ Режим баристи</span>
-<input type="text" id="name" placeholder="Назва напою">
+<!-- 2. АДМІН-ПАНЕЛЬ (ДОДАТИ КАВУ ТА СТАТИСТИКА) -->
+<div id="admin-sec" class="card hidden">
+<h2>☕ Додати нову каву</h2>
+<input type="text" id="title" placeholder="Назва (напр. Лате)">
 <input type="number" id="price" placeholder="Ціна (грн)">
-<button onclick="addCoffee()">Додати в меню</button>
+<input type="text" id="desc" placeholder="Опис">
+<input type="text" id="img" placeholder="URL фото (необов'язково)">
+<button id="add-btn">Додати в меню</button>
 
-<h3 style="margin-top: 20px; font-size: 1rem; color: #3d2314;">Поточне меню:</h3>
-<ul id="barista-list"></ul>
+<hr style="margin: 25px 0;">
+
+<h2>📊 Статистика переглядів</h2>
+<div id="stats-list">Завантаження...</div>
+
+<button id="logout-btn" class="logout-btn">Вийти</button>
 </div>
-</div>
 
-<script>
-const PASS = "1616";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-function login() {
-if (document.getElementById('pass').value === PASS) {
-document.getElementById('login-box').classList.add('hidden');
-document.getElementById('admin-box').classList.remove('hidden');
-renderBaristaList();
+// ⚠️ ВСТАВТЕ СВОЇ ДАНІ З FIREBASE (Project Settings -> General)
+const firebaseConfig = {
+apiKey: "ВАШ_API_KEY",
+authDomain: "toropyga.firebaseapp.com",
+projectId: "toropyga",
+storageBucket: "toropyga.appspot.com",
+messagingSenderId: "ВАШ_SENDER_ID",
+appId: "ВАШ_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Перевірка стану входу
+onAuthStateChanged(auth, (user) => {
+if (user) {
+document.getElementById('login-sec').classList.add('hidden');
+document.getElementById('admin-sec').classList.remove('hidden');
+loadStats();
 } else {
-document.getElementById('err').style.display = 'block';
+document.getElementById('login-sec').classList.remove('hidden');
+document.getElementById('admin-sec').classList.add('hidden');
 }
-}
-
-function getMenu() {
-return JSON.parse(localStorage.getItem('coffeeMenu')) || [];
-}
-
-function renderBaristaList() {
-const menu = getMenu();
-const list = document.getElementById('barista-list');
-list.innerHTML = '';
-
-menu.forEach((item, index) => {
-const li = document.createElement('li');
-li.innerHTML = 
-<span>${item.name} (${item.price} грн)</span>
-<button class="del-btn" onclick="deleteCoffee(${index})">Видалити</button>
-;
-list.appendChild(li);
 });
+
+// Авторизація
+document.getElementById('login-btn').addEventListener('click', async () => {
+const email = document.getElementById('email').value;
+const pass = document.getElementById('pass').value;
+try {
+await signInWithEmailAndPassword(auth, email, pass);
+} catch (err) {
+alert("Помилка входу: " + err.message);
 }
+});
 
-function addCoffee() {
-const name = document.getElementById('name').value;
-const price = document.getElementById('price').value;
+// Вихід з адмінки
+document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
 
-if (name && price) {
-let currentMenu = getMenu();
-currentMenu.push({ name, price: Number(price) });
-localStorage.setItem('coffeeMenu', JSON.stringify(currentMenu));
+// Додавання кави
+document.getElementById('add-btn').addEventListener('click', async () => {
+const title = document.getElementById('title').value;
+const price = Number(document.getElementById('price').value);
+const desc = document.getElementById('desc').value;
+const img = document.getElementById('img').value;
+
+if (!title || !price) return alert("Заповніть назву та ціну!");
 
 Вася:
-document.getElementById('name').value = '';
+try {
+await addDoc(collection(db, "coffee"), {
+title: title,
+price: price,
+description: desc,
+image: img || "https://via.placeholder.com/150",
+views: 0
+});
+alert("Каву успішно додано!");
+document.getElementById('title').value = '';
 document.getElementById('price').value = '';
-renderBaristaList();
+document.getElementById('desc').value = '';
+document.getElementById('img').value = '';
+} catch (err) {
+alert("Помилка додавання: " + err.message);
 }
-}
+});
 
-function deleteCoffee(index) {
-let currentMenu = getMenu();
-currentMenu.splice(index, 1);
-localStorage.setItem('coffeeMenu', JSON.stringify(currentMenu));
-renderBaristaList();
+// Оновлення статистики в реальному часі
+function loadStats() {
+const q = query(collection(db, "coffee"), orderBy("views", "desc"));
+onSnapshot(q, (snapshot) => {
+const list = document.getElementById('stats-list');
+list.innerHTML = '';
+snapshot.forEach((doc) => {
+const data = doc.data();
+const row = document.createElement('div');
+row.className = 'stat-row';
+row.innerHTML = <span><strong>${data.title}</strong> (${data.price} грн)</span> <span>👁️ ${data.views || 0}</span>;
+list.appendChild(row);
+});
+});
 }
 </script>
 </body>
